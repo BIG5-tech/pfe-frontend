@@ -1,0 +1,126 @@
+<mat-toolbar color="primary">
+  <span>PFE Manager</span>
+  <span style="flex:1"></span>
+  <span style="font-size:14px;margin-right:16px">
+    Bonjour, {{ currentUser?.prenom }} {{ currentUser?.nom }}
+  </span>
+  <button mat-icon-button (click)="logout()" title="Déconnexion">
+    <mat-icon>logout</mat-icon>
+  </button>
+</mat-toolbar>
+
+<div class="dashboard-container" *ngIf="!loading">
+
+  <!-- Préférences -->
+  <mat-card class="prefs-card">
+    <mat-card-header>
+      <mat-card-title>Personnalisation</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="prefs-row">
+
+        <mat-form-field appearance="outline">
+          <mat-label>Filtre projets</mat-label>
+          <mat-select [(ngModel)]="preferences.filtre_projet">
+            <mat-option value="tous">Tous</mat-option>
+            <mat-option value="en_cours">En cours</mat-option>
+            <mat-option value="en_attente">En attente</mat-option>
+            <mat-option value="termine">Terminés</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Tri comptes rendus</mat-label>
+          <mat-select [(ngModel)]="preferences.tri_comptes_rendus">
+            <mat-option value="date_desc">Plus récents d'abord</mat-option>
+            <mat-option value="date_asc">Plus anciens d'abord</mat-option>
+            <mat-option value="type">Par type</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <button mat-raised-button color="accent"
+                (click)="savePreferences()"
+                [disabled]="savingPrefs">
+          {{ savingPrefs ? 'Sauvegarde...' : 'Sauvegarder' }}
+        </button>
+
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <div class="widgets-grid">
+
+    <!-- Projets -->
+    <mat-card class="widget-card">
+      <mat-card-header>
+        <mat-card-title>Mes Projets ({{ projets.length }})</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div *ngIf="projets.length === 0" class="empty-state">
+          Aucun projet trouvé
+        </div>
+        <div *ngFor="let projet of projets" class="list-item">
+          <div class="item-title">{{ projet.titre }}</div>
+          <div class="item-meta">
+            <span class="chip chip-{{ projet.statut }}">{{ projet.statut }}</span>
+            <span class="meta-text">{{ projet.annee }} · Encadrant : {{ projet.encadrant_prenom }} {{ projet.encadrant_nom }}</span>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Comptes rendus -->
+    <mat-card class="widget-card">
+      <mat-card-header>
+        <mat-card-title>Comptes rendus ({{ comptesRendus.length }})</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div *ngIf="comptesRendus.length === 0" class="empty-state">
+          Aucun compte rendu
+        </div>
+        <div *ngFor="let cr of comptesRendus" class="list-item">
+          <div class="item-title">{{ cr.titre }}</div>
+          <div class="item-meta">
+            <span class="chip chip-type">{{ cr.type }}</span>
+            <span class="meta-text">{{ cr.projet_titre }} · {{ cr.created_at | date:'dd/MM/yyyy' }}</span>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Notifications -->
+    <mat-card class="widget-card">
+      <mat-card-header>
+        <mat-card-title>
+          Notifications
+          <span class="count-badge" *ngIf="nonLues > 0">{{ nonLues }} non lues</span>
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <button mat-stroked-button style="width:100%;margin-bottom:12px"
+                *ngIf="nonLues > 0"
+                (click)="markAllRead()">
+          Tout marquer comme lu
+        </button>
+        <div *ngIf="notifications.length === 0" class="empty-state">
+          Aucune notification
+        </div>
+        <div *ngFor="let notif of notifications"
+             class="list-item notif-item"
+             [class.unread]="!notif.lu"
+             (click)="markRead(notif)">
+          <div class="item-title">{{ notif.message }}</div>
+          <div class="item-meta">
+            <span class="meta-text">{{ notif.created_at | date:'dd/MM/yyyy HH:mm' }}</span>
+            <span class="chip chip-lu" *ngIf="notif.lu">Lu</span>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+  </div>
+</div>
+
+<div *ngIf="loading" style="display:flex;justify-content:center;margin-top:80px">
+  <mat-spinner></mat-spinner>
+</div>
