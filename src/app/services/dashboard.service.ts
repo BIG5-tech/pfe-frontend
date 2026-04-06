@@ -1,4 +1,5 @@
 // BIG5-71 - Permettre la sauvegarde des préférences
+// BIG5-69 - Ajouter tri des comptes rendus
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
