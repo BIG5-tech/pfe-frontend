@@ -1,3 +1,4 @@
+// BIG5-70 - Ajouter affichage des notifications
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
