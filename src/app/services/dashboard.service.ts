@@ -1,3 +1,4 @@
+// BIG5-71 - Permettre la sauvegarde des préférences
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
