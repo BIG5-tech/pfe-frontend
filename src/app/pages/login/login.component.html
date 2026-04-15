@@ -1,0 +1,75 @@
+<div class="page">
+  <!-- Left Panel -->
+  <div class="left-panel">
+    <div class="left-content">
+      <div class="logo-area">
+        <div class="logo-icon">🎓</div>
+        <h1>PFE Manager</h1>
+      </div>
+      <p class="tagline">La plateforme qui simplifie la gestion de vos projets de fin d'études</p>
+      <div class="feature-list">
+        <div class="feature" *ngFor="let f of features; let i = index"
+             [style.animation-delay]="(i * 0.1 + 0.3) + 's'">
+          <div class="feature-dot"></div>
+          <span>{{ f }}</span>
+        </div>
+      </div>
+    </div>
+    <div class="blob b1"></div>
+    <div class="blob b2"></div>
+    <div class="blob b3"></div>
+  </div>
+
+  <!-- Right Panel -->
+  <div class="right-panel">
+    <div class="form-card">
+      <div class="form-top">
+        <h2>Bienvenue 👋</h2>
+        <p>Connectez-vous à votre espace</p>
+      </div>
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <div class="field">
+          <label>Email</label>
+          <div class="input-box" [class.active]="emailFocused">
+            <span class="ico">✉️</span>
+            <input type="email" formControlName="email"
+                   placeholder="votre@email.com"
+                   (focus)="emailFocused=true"
+                   (blur)="emailFocused=false">
+          </div>
+        </div>
+        <div class="field">
+          <label>Mot de passe</label>
+          <div class="input-box" [class.active]="passFocused">
+            <span class="ico">🔑</span>
+            <input [type]="showPass ? 'text' : 'password'"
+                   formControlName="password"
+                   placeholder="••••••••"
+                   (focus)="passFocused=true"
+                   (blur)="passFocused=false">
+            <span class="eye" (click)="showPass=!showPass">
+              {{ showPass ? '🙈' : '👁️' }}
+            </span>
+          </div>
+        </div>
+        <div class="error-box" *ngIf="errorMsg">
+          ⚠️ {{ errorMsg }}
+        </div>
+        <button class="submit-btn" type="submit"
+                [disabled]="loginForm.invalid || loading">
+          <span *ngIf="!loading">Se connecter &nbsp;→</span>
+          <div class="dots" *ngIf="loading">
+            <div></div><div></div><div></div>
+          </div>
+        </button>
+      </form>
+      <div class="hint">
+        Compte test : <b>ahmed@pfe.com</b> / <b>password</b>
+      </div>
+      <div class="switch-link">
+        Pas encore de compte ?
+        <a routerLink="/create-student">Créer un compte étudiant</a>
+      </div>
+    </div>
+  </div>
+</div>

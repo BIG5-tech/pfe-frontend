@@ -1,27 +1,134 @@
-# Frontend
+# PFE Manager — Frontend
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.16.
+> Application Angular pour la gestion des projets de fin d'études (PFE)
 
-## Development server
+---
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## Tech Stack
 
-## Code scaffolding
+- **Framework** : Angular 16+
+- **UI Library** : Angular Material
+- **Styling** : SCSS + CSS custom (dark theme)
+- **HTTP** : HttpClient (Angular)
+- **Forms** : ReactiveFormsModule
+- **Routing** : Angular Router
+- **Font** : Inter (Google Fonts)
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+---
 
-## Build
+## Architecture
+frontend/
+├── src/
+│   ├── app/
+│   │   ├── coordinator/
+│   │   │   ├── create-student.component.ts
+│   │   │   ├── create-student.component.html
+│   │   │   └── create-student.component.css
+│   │   ├── pages/
+│   │   │   ├── dashboard/
+│   │   │   │   ├── dashboard.component.ts
+│   │   │   │   ├── dashboard.component.html
+│   │   │   │   └── dashboard.component.scss
+│   │   │   └── login/
+│   │   │       ├── login.component.ts
+│   │   │       ├── login.component.html
+│   │   │       └── login.component.scss
+│   │   ├── services/
+│   │   │   ├── auth.service.ts
+│   │   │   ├── dashboard.service.ts
+│   │   │   └── student.service.ts
+│   │   ├── models/
+│   │   │   └── student.model.ts
+│   │   ├── guards/
+│   │   │   └── auth.guard.ts
+│   │   ├── pipes/
+│   │   │   └── project-status.pipe.ts
+│   │   ├── app.module.ts
+│   │   └── app-routing.module.ts
+│   ├── environments/
+│   │   └── environment.ts
+│   └── styles.scss
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+---
 
-## Running unit tests
+## User Stories
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+### US1 — Espace étudiant personnalisé
+> En tant qu'étudiant, je peux personnaliser mon espace afin de visualiser mes projets, comptes rendus et notifications de manière adaptée à mes besoins.
 
-## Running end-to-end tests
+**Composants :**
+- `login.component` — authentification avec email/password
+- `dashboard.component` — espace personnalisé avec projets, comptes rendus, notifications et préférences
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+**Fonctionnalités :**
+- Connexion sécurisée avec JWT
+- Affichage des projets avec filtre par statut
+- Affichage des comptes rendus avec tri
+- Notifications en temps réel avec marquage lu/non-lu
+- Sauvegarde des préférences personnelles
+- Protection des routes via `AuthGuard`
 
-## Further help
+---
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+### US2 — Création de compte étudiant
+> En tant que coordinateur, je peux créer un compte étudiant afin que l'étudiant puisse accéder au système.
+
+**Composants :**
+- `create-student.component` — formulaire de création de compte
+
+**Fonctionnalités :**
+- Formulaire réactif avec validation côté client
+- Champs : nom, prénom, email, numéro étudiant, département, année d'étude
+- Génération automatique d'un mot de passe temporaire
+- Messages de succès/erreur
+- Lien de navigation vers le login
+
+---
+
+## Routes
+
+| Route | Composant | Description |
+|-------|-----------|-------------|
+| `/login` | `LoginComponent` | Page de connexion |
+| `/dashboard` | `DashboardComponent` | Espace étudiant |
+| `/create-student` | `CreateStudentComponent` | Création de compte |
+
+---
+
+## Design System
+
+- **Thème** : Dark mode premium
+- **Couleur principale** : `#6366f1` (Indigo)
+- **Background** : `linear-gradient(135deg, #0f0c29, #302b63, #24243e)`
+- **Typographie** : Inter (300, 400, 500, 600, 700, 800)
+- **Animations** : slideIn, fadeUp, float, popIn, pulse
+- **Style** : Minimaliste, moderne, dark theme cohérent sur toutes les pages
+
+---
+
+## Installation & Démarrage
+
+```bash
+# Installer les dépendances
+npm install
+
+# Démarrer le serveur de développement
+ng serve
+
+# Accéder à l'application
+http://localhost:4200
+```
+
+---
+
+## Backend
+
+Ce frontend communique avec un backend PHP via XAMPP :
+- **URL** : `http://localhost/backend/dashbord-backend`
+- **Port Apache** : 80
+
+---
+
+## Compte de test
+Email    : ahmed@pfe.com
+Password : password
